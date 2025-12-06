@@ -5,6 +5,7 @@ import 'package:payroll_app/data/response/api_response.dart';
 // import 'package:payroll_app/repository/home_repository.dart';
 
 class WelcomeViewmodel with ChangeNotifier {
+
   // Basic UI state used by the welcome/login page
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
@@ -33,18 +34,31 @@ class WelcomeViewmodel with ChangeNotifier {
   }
 
   // Simple button styles moved from controller
-  ButtonStyle loginButtonStyle() {
+   ButtonStyle loginButtonStyle() {
     return TextButton.styleFrom(
-      backgroundColor: Colors.white.withOpacity(0.2),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      foregroundColor: Colors.white,
+      backgroundColor: Colors.transparent,
+      minimumSize: const Size(100, 40),
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(
+            Radius.circular(8),
+          ),
+          side: BorderSide(color: Colors.white, width: 3)),
     );
   }
 
-  ButtonStyle loginButtonStyle2() {
+    ButtonStyle loginButtonStyle2() {
     return TextButton.styleFrom(
-      backgroundColor: Colors.blueAccent,
       foregroundColor: Colors.white,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      backgroundColor: const Color(0xFF5BCFC5),
+      minimumSize: const Size(100, 40),
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(
+          Radius.circular(8),
+        ),
+      ),
     );
   }
 

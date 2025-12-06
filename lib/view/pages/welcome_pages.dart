@@ -16,6 +16,7 @@ class _WelcomePageState extends State<WelcomePage> {
   @override
   Widget build(context) {
     final controller = Provider.of<WelcomeViewmodel>(context);
+
     return Scaffold(
       backgroundColor: const Color(0xFF74EBE0),
       appBar: null,
