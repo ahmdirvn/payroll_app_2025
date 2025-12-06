@@ -1,182 +1,54 @@
-📱 HR–Finance Mobile App
+# HR–Finance Mobile App
 
-Aplikasi mobile Employee Self-Service (ESS) untuk akses slip gaji, riwayat pinjaman, dan pengajuan pinjaman, terintegrasi dengan sistem HR–Finance PT. Taman Media Indonesia.
+Aplikasi Employee Self-Service (ESS) berbasis Flutter untuk mengakses slip gaji, riwayat pinjaman, dan pengajuan pinjaman. Terintegrasi dengan backend Laravel milik PT. Taman Media Indonesia.
 
-📌 Overview
+---
 
-HR–Finance Mobile App adalah aplikasi berbasis Flutter yang memungkinkan karyawan mengakses informasi keuangan pribadi secara cepat dan praktis. Aplikasi ini terhubung dengan backend Laravel yang digunakan untuk memproses data slip gaji, autentikasi, dan transaksi pinjaman secara aman.
+## Ringkasan
 
-Aplikasi ini dikembangkan sebagai solusi dari permasalahan utama pada sistem payroll yang masih manual dan tidak mobile-friendly.
+HR–Finance Mobile App memudahkan karyawan mengakses informasi keuangan pribadi melalui smartphone. Aplikasi ini terhubung ke REST API Laravel untuk autentikasi, pengelolaan slip gaji (PDF), pengajuan pinjaman, dan notifikasi.
 
-✨ Main Features
+## Fitur Utama
 
-🔐 Login & Authentication (Laravel Sanctum / Token)
+- **Autentikasi**: Login aman (Laravel Sanctum / Token)
+- **Slip Gaji**: Lihat dan unduh slip gaji dalam format PDF
+- **Pengajuan Pinjaman**: Ajukan, pantau, dan lihat riwayat pinjaman
+- **Notifikasi**: Firebase Cloud Messaging (FCM)
+- **UI/UX**: Desain modern, mobile-first
 
-📄 Lihat & Unduh Slip Gaji (PDF)
+## Masalah yang Diselesaikan
 
-💸 Pengajuan Pinjaman
+- Website payroll yang tidak mobile-friendly
+- Proses pengajuan pinjaman yang manual
+- Sulitnya mengunduh slip gaji dari HP
 
-📊 Riwayat Pinjaman
+---
 
-🔔 Notifikasi (FCM)
+## Teknologi
 
-📱 UI/UX modern berbasis Flutter
+- Mobile: **Flutter & Dart**
+- State management: **BLoC**
+- Backend: **Laravel** (Sanctum / Token)
+- PDF: **laravel-dompdf** / **Snappy**
+- Database: **MySQL / PostgreSQL**
+- Notifikasi: **Firebase Cloud Messaging**
 
-🎯 Problem Background
+## Alat Pengembang
 
-Banyak perusahaan, termasuk PT. Taman Media Indonesia, masih menggunakan website payroll lama yang kurang mobile-friendly. Karyawan sering mengalami:
+- VS Code
+- Postman
+- Git / GitHub
+- Android Emulator
 
-Sulit mengakses slip gaji dari smartphone
+---
 
-Domain website mudah lupa
+## Struktur Proyek (Rekomendasi)
 
-Tidak ada fitur cetak slip gaji langsung dari HP
-
-Pengajuan pinjaman masih manual
-
-Proses approval memakan waktu lama
-
-Aplikasi mobile ESS ini hadir untuk meningkatkan efisiensi HR–Finance dan kenyamanan karyawan.
-
-🧠 Empathy Map Summary
-
-User persona: Maida (29 th), Staff Operasional yang sering membutuhkan slip gaji dan kemudahan pengajuan pinjaman.
-
-Pains:
-
-Website tidak mobile-friendly
-
-Proses pinjaman manual
-
-Slip gaji tidak bisa diunduh langsung
-
-Login rumit
-
-Gains:
-
-Akses slip gaji cepat
-
-Pengajuan pinjaman via aplikasi
-
-Notifikasi otomatis
-
-UI nyaman dan modern
-
-💡 Offered Solution
-
-Membangun aplikasi mobile ESS dengan kemampuan:
-
-Mengakses dan mengunduh slip gaji secara langsung
-
-Mengajukan dan memantau status pinjaman
-
-Login cepat dan aman
-
-Integrasi penuh dengan sistem payroll backend Laravel
-
-Notifikasi otomatis untuk status slip & pinjaman
-
-Tujuan utamanya adalah menghadirkan pengalaman digital modern dan efisiensi bisnis yang lebih baik.
-
-🧩 User Story
-
-Beberapa user story penting:
-
-Sebagai karyawan, saya ingin login ke aplikasi sehingga dapat mengakses informasi pribadi.
-
-Sebagai karyawan, saya ingin melihat slip gaji bulan tertentu.
-
-Sebagai karyawan, saya ingin mengunduh slip gaji dalam bentuk PDF.
-
-Sebagai karyawan, saya ingin mengajukan pinjaman dengan nominal tertentu.
-
-Sebagai admin, saya ingin mengelola data slip dan pinjaman melalui dashboard web.
-
-🛠️ Tech Stack
-📱 Mobile (Frontend)
-
-Flutter & Dart
-
-State Management: BLoC
-
-UI/UX: Figma
-
-🖥️ Backend
-
-Laravel
-
-Authentication: Sanctum / Token
-
-PDF generator: laravel-dompdf / Snappy
-
-🗄️ Database
-
-MySQL atau PostgreSQL
-
-🌐 API Integration
-
-REST API
-
-Firebase Cloud Messaging (Notifikasi)
-
-🚀 Deployment
-
-Backend: Google Cloud Run / Hostinger
-
-Database: Cloud SQL / Supabase / Aiven
-
-Mobile App: Google Play Store
-
-🔧 Developer Tools
-
-VS Code
-
-Postman
-
-GitHub
-
-Android Emulator
-
-🏗️ System Architecture
-System Overview
-
-Flutter mobile app & Laravel web admin terhubung ke API server Laravel yang sama.
-
-API memproses permintaan dari frontend dan berinteraksi dengan database relasional.
-
-Architecture Flow
-
-User → Mobile App
-
-App → REST API
-
-API → Database (read/write)
-
-Response → Mobile
-
-Admin dashboard → API yang sama
-
-Notifikasi melalui FCM
-
-🧪 Development Method
-
-Model SDLC yang digunakan: Waterfall
-
-Requirement
-
-Design (UI/UX, arsitektur, diagram)
-
-Implementation (Flutter, Laravel)
-
-Verification (Testing API & Mobile)
-
-Maintenance
-
-📌 Project Structure (rekomendasi)
+```
 /mobile-app
   /lib
   /assets
-  /bloc
+  /mvvm
   pubspec.yaml
 
 /backend
@@ -185,24 +57,60 @@ Maintenance
   /database
   composer.json
 
-/docs
-  proposal.pdf
-  architecture.png
+```
 
-📍 Future Improvements
+---
 
-Fitur absensi digital
+## Deployment
 
-Pengajuan cuti
+- Backend: Google Cloud Run / Hostinger
+- Database: Cloud SQL / Supabase / Aiven
+- Mobile App: Google Play Store
 
-Integrasi fingerprint attendance
+---
 
-Dashboard analytics
+## Cara Menjalankan (singkat)
 
-Security hardening API & mobile
+1. Pasang dependensi Flutter:
 
-👨‍💻 Author
+```powershell
+flutter pub get
+```
 
-Ahmad Irvan Maulana
+2. Jalankan aplikasi di emulator atau perangkat:
 
-Universitas Ciputra Surabaya
+```powershell
+flutter run
+```
+
+---
+
+## Perbaikan Mendatang
+
+- Absensi digital
+- Pengajuan cuti
+- Integrasi fingerprint attendance
+- Dashboard analytics
+- Peningkatan keamanan API & mobile
+
+---
+
+## Penulis
+
+Ahmad Irvan Maulana — Universitas Ciputra Surabaya
+
+---
+
+## Refleksi
+
+Setelah menyimak video ini, saya mendapatkan pemahaman yang lebih jelas tentang bagaimana pola arsitektur MVVM dapat diterapkan dalam proyek Flutter, khususnya saat membangun fitur CRUD menggunakan SQLite. Video ini membantu saya melihat bahwa memisahkan UI, logic, dan data bukan hanya tentang "struktur yang rapi", tetapi tentang membuat aplikasi lebih mudah dikembangkan, diuji, dan diperluas di masa depan.
+
+Penjelasan tentang Model, View, dan ViewModel membuat saya lebih mengerti alur kerja aplikasi yang ideal. Model menangani data, View fokus pada tampilan, dan ViewModel menjadi penghubung yang mengatur proses serta memberi tahu UI saat ada perubahan. Saya baru menyadari bahwa konsep ini membuat state management lebih terkontrol, terutama ketika menggunakan paket seperti Provider.
+
+Bagian SQLite juga membuka wawasan baru bagi saya. Ternyata, penyimpanan lokal dengan SQLite sangat cocok untuk aplikasi yang tidak membutuhkan server dan cukup mengandalkan data perangkat. Proses konfigurasi database, mulai dari membuat tabel hingga CRUD, dijelaskan dengan alur yang mudah dipahami. Penjelasan mengenai toMap() dan fromMap() membuat saya lebih mengerti bagaimana data diubah menjadi format yang bisa dibaca database.
+
+Video ini juga menunjukkan praktik nyata membangun folder struktur seperti model, services, viewmodel, dan views, yang membantu saya memahami bagaimana memisahkan kode secara profesional. Contoh implementasi dialog tambah/edit, penggunaan Consumer, serta pembaruan UI menggunakan notifyListeners() membuat konsep MVVM menjadi sangat praktis dan nyata.
+
+Secara keseluruhan, video ini memberikan gambaran lengkap bagaimana membangun aplikasi Flutter yang bersih dan scalable menggunakan pattern MVVM dan SQLite. Saya merasa lebih percaya diri untuk menerapkan konsep ini pada proyek Flutter saya sendiri, terutama karena setiap langkah dijelaskan dengan jelas dan berurutan, mulai dari setup hingga menjalankan aplikasi.
+
+---
