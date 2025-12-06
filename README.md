@@ -42,7 +42,7 @@ HR–Finance Mobile App memudahkan karyawan mengakses informasi keuangan pribadi
 
 ---
 
-## Struktur Proyek (Rekomendasi)
+## Struktur Proyek 
 
 ```
 /mobile-app
