@@ -85,6 +85,67 @@ flutter run
 
 ---
 
+## MVVM (Overview)
+
+MVVM adalah pola arsitektur yang memisahkan aplikasi menjadi tiga komponen utama:
+
+- **Model** — struktur data dan logika akses data (mis. service, repository, model class).
+- **View** — UI (widget) yang menampilkan data dan mengirim aksi user.
+- **ViewModel** — penghubung antara Model dan View; menangani state, transformasi data, dan exposing streams/observables atau notifiers untuk UI.
+
+Di project ini, struktur folder yang disarankan merepresentasikan pemisahan tersebut:
+
+```
+/mobile-app/lib
+  /model
+  /view
+  /viewmodel
+  /services (atau /repository)
+```
+---
+
+## Cara Menjalankan (lengkap)
+
+Prerequisites:
+
+- Install Flutter SDK (sesuaikan PATH).
+- Android SDK / Xcode (untuk iOS) terpasang dan konfigurasi device/emulator siap.
+- Pastikan `flutter doctor` bersih atau minimal hanya beberapa peringatan yang tidak kritis.
+
+Langkah menjalankan aplikasi lokal:
+
+1. Install dependencies:
+
+```powershell
+flutter pub get
+```
+
+2. Menjalankan pada Android emulator atau device fisik (USB debugging aktif):
+
+```powershell
+flutter devices       # lihat daftar device
+flutter run --debug  # jalankan pada device default
+```
+
+3. Build APK untuk distribusi/testing:
+
+```powershell
+flutter build apk --release
+```
+
+4. Build untuk iOS (macOS required):
+
+```bash
+flutter build ios --release
+```
+
+Tips debugging:
+- Gunakan `flutter logs` untuk melihat log runtime.
+- Hot reload: tekan `r` pada terminal `flutter run` atau gunakan IDE.
+- Untuk masalah dependency native, jalankan `flutter clean` lalu `flutter pub get`.
+
+---
+
 ## Perbaikan Mendatang
 
 - Absensi digital
