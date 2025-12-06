@@ -1,0 +1,1 @@
+shared : isinya beberapa kelas atau var yang akan dgiunakan secara global

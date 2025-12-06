@@ -1,0 +1,1 @@
+repository : bentuk logika, untuk pengembalian dalam bentuk json or etc

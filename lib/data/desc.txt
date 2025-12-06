@@ -1,0 +1,1 @@
+data : untuk komunikasi data ke database backend atau untuk menyimpan

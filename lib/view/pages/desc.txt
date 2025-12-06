@@ -1,0 +1,1 @@
+pages untuk semua, dan kita perlu 1 class yang sama dengan nama foldernya supaya nanti bsa implementasi buat dipakai di semua kelas

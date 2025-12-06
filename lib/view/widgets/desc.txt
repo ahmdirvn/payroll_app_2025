@@ -1,0 +1,1 @@
+widgets : misal untuk buat card view, misal label text atau label view sama dengan page yang lain bisa reusable
