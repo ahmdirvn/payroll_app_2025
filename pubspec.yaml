@@ -31,7 +31,6 @@ dependencies:
   cupertino_icons: ^1.0.8
   flutter:
     sdk: flutter
-  fluttertest: ^0.0.1
   google_fonts: ^6.3.3
   http: ^1.6.0
   icon: ^2.2.1

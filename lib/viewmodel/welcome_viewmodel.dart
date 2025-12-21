@@ -5,7 +5,6 @@ import 'package:payroll_app/data/response/api_response.dart';
 // import 'package:payroll_app/repository/home_repository.dart';
 
 class WelcomeViewmodel with ChangeNotifier {
-
   // Basic UI state used by the welcome/login page
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
@@ -33,32 +32,45 @@ class WelcomeViewmodel with ChangeNotifier {
     }
   }
 
+  // Method untuk validasi input login
+  bool validateLogin() {
+    isLoading = true;
+    // Mengecek apakah username kosong
+    usernameValidate = usernameController.text.isEmpty;
+    // Mengecek apakah password kosong
+    passwordValidate = passwordController.text.isEmpty;
+    // Memberi tahu UI bahwa state berubah
+    notifyListeners();
+    // Return true jika valid
+    return !usernameValidate && !passwordValidate;
+  }
+
+  void togglePasswordVisibility() {
+    isHiddenPassword = !isHiddenPassword;
+    notifyListeners();
+  }
+
   // Simple button styles moved from controller
-   ButtonStyle loginButtonStyle() {
+  ButtonStyle loginButtonStyle() {
     return TextButton.styleFrom(
       foregroundColor: Colors.white,
       backgroundColor: Colors.transparent,
       minimumSize: const Size(100, 40),
       padding: const EdgeInsets.symmetric(horizontal: 16),
       shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(
-            Radius.circular(8),
-          ),
-          side: BorderSide(color: Colors.white, width: 3)),
+        borderRadius: BorderRadius.all(Radius.circular(8)),
+        side: BorderSide(color: Colors.white, width: 3),
+      ),
     );
   }
 
-    ButtonStyle loginButtonStyle2() {
+  ButtonStyle loginButtonStyle2() {
     return TextButton.styleFrom(
       foregroundColor: Colors.white,
       backgroundColor: const Color(0xFF5BCFC5),
       minimumSize: const Size(100, 40),
       padding: const EdgeInsets.symmetric(horizontal: 16),
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(
-          Radius.circular(8),
-        ),
-      ),
+      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(8))),
     );
   }
 
