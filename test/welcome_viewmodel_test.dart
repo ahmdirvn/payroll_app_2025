@@ -15,17 +15,18 @@ import 'package:payroll_app/viewmodel/welcome_viewmodel.dart';
 
 void main() {
   // Mengelompokkan test agar lebih rapi dan mudah dibaca
+
+  // Deklarasi variabel ViewModel yang akan dipakai di setiap test
+  late WelcomeViewmodel viewModel;
+
+  // Method ini dijalankan sebelum setiap test
+  setUp(() {
+    // ===== Arrange =====
+    // Membuat instance baru WelcomeViewmodel
+    viewModel = WelcomeViewmodel();
+  });
+
   group('WelcomeViewmodel Unit Test', () {
-    // Deklarasi variabel ViewModel yang akan dipakai di setiap test
-    late WelcomeViewmodel viewModel;
-
-    // Method ini dijalankan sebelum setiap test
-    setUp(() {
-      // ===== Arrange =====
-      // Membuat instance baru WelcomeViewmodel
-      viewModel = WelcomeViewmodel();
-    });
-
     test('loginUser mengubah isLoading menjadi true lalu false', () async {
       // ===== Arrange =====
       // Menyiapkan data input username dan password
@@ -161,6 +162,34 @@ void main() {
       // Memastikan nilai isHiddenPassword berubah
       // menjadi kebalikan dari nilai sebelumnya
       expect(viewModel.isHiddenPassword, !initial);
+    });
+
+    test('validateLogin gagal jika email tidak sesuai format', () {
+      // ===== Arrange =====
+      viewModel.usernameController.text = 'invalidemail.com'; // tanpa @
+      viewModel.passwordController.text = '123456';
+
+      // ===== Act =====
+      final result = viewModel.validateLogin();
+
+      // ===== Assert =====
+      expect(result, false);
+      expect(viewModel.usernameValidate, true); // email invalid dianggap error
+      expect(viewModel.passwordValidate, false); // password sudah terisi
+    });
+
+    test('validateLogin berhasil jika email valid dan password terisi', () {
+      // ===== Arrange =====
+      viewModel.usernameController.text = 'test@email.com';
+      viewModel.passwordController.text = '123456';
+
+      // ===== Act =====
+      final result = viewModel.validateLogin();
+
+      // ===== Assert =====
+      expect(result, true);
+      expect(viewModel.usernameValidate, false);
+      expect(viewModel.passwordValidate, false);
     });
   });
 }

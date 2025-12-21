@@ -44,7 +44,7 @@ class LoginBottomSheet extends StatelessWidget {
                   decoration: InputDecoration(
                     border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
                     labelText: "email",
-                    errorText: vm.usernameValidate ? 'Masukan username' : null,
+                    errorText: vm.usernameValidate ? 'Masukan username yang valid' : null,
                   ),
                 ),
               ),

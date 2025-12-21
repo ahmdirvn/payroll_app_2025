@@ -15,7 +15,7 @@ class WelcomeViewmodel with ChangeNotifier {
   bool passwordValidate = false;
   bool isLoading = false;
 
-  // Simulated login method — replace with real API call
+  // Simulated login method — will use with real API later
   Future<void> loginUser(String username, String password) async {
     isLoading = true;
     notifyListeners();
@@ -30,12 +30,23 @@ class WelcomeViewmodel with ChangeNotifier {
     }
   }
 
+  bool _isValidEmail(String email) {
+    // regex sederhana untuk email
+    final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+    return emailRegex.hasMatch(email);
+  }
+
   // Method untuk validasi input login
   bool validateLogin() {
+    String username = usernameController.text.trim();
     // Mengecek apakah username kosong
     usernameValidate = usernameController.text.isEmpty;
     // Mengecek apakah password kosong
     passwordValidate = passwordController.text.isEmpty;
+    // cek format email jika tidak kosong
+    if (!usernameValidate && !_isValidEmail(username)) {
+      usernameValidate = true; // anggap invalid format = error
+    }
     // Memberi tahu UI bahwa state berubah
     notifyListeners();
     // Return true jika valid
@@ -80,4 +91,7 @@ class WelcomeViewmodel with ChangeNotifier {
     passwordController.dispose();
     super.dispose();
   }
+
+
+  
 }
