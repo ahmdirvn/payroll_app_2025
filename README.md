@@ -1,3 +1,49 @@
+## AAFL 3 Unit Test & Widget Test
+
+Proyek ini menyertakan pengujian otomatis untuk memastikan aplikasi berjalan sesuai harapan.  
+Terdapat **dua jenis utama pengujian**: **Unit Test** dan **Widget Test**.
+
+### 1. Unit Test (`WelcomeViewmodel`)
+Unit test fokus pada **logic aplikasi**, khususnya `WelcomeViewmodel`. Total ada **13 test** yang mencakup:
+
+| No | Test | Deskripsi |
+|----|------|-----------|
+| 1 | `loginUser` | Memastikan `isLoading` berubah menjadi `true` saat login dimulai, lalu kembali `false` setelah selesai. |
+| 2 | Default state | Memastikan nilai awal `isLoading`, `isHiddenPassword`, `usernameValidate`, `passwordValidate` sesuai definisi. |
+| 3 | `TextEditingController` kosong | Memastikan controller `usernameController` dan `passwordController` awalnya kosong. |
+| 4 | `dispose()` | Memastikan method dispose dapat dipanggil tanpa error. |
+| 5 | `loginButtonStyle` | Mengembalikan `ButtonStyle` yang valid untuk login button utama. |
+| 6 | `loginButtonStyle2` | Mengembalikan `ButtonStyle` untuk button login di modal bottom sheet. |
+| 7 | `validateLogin` gagal jika kosong | Memastikan validasi gagal jika username & password kosong, serta flag validasi di-set `true`. |
+| 8 | `togglePasswordVisibility` | Membalik nilai `isHiddenPassword` saat dipanggil. |
+| 9 | `validateLogin` email invalid | Memastikan validasi gagal jika email tidak sesuai format, password valid tetap false. |
+| 10 | `validateLogin` sukses | Memastikan validasi berhasil jika email valid dan password terisi. |
+
+> **Logika testing:** menggunakan pola **AAA (Arrange, Act, Assert)**.  
+> - **Arrange:** setup ViewModel, TextController, atau input data.  
+> - **Act:** memanggil method yang diuji.  
+> - **Assert:** memverifikasi hasil dengan `expect()`.
+
+---
+
+### 2. Widget Test (`WelcomePage`, `LoginButton`, `LoginBottomSheet`)
+Widget test fokus pada **UI dan interaksi**. Total ada **5 test utama**:
+
+| No | Test | Deskripsi |
+|----|------|-----------|
+| 1 | Menampilkan elemen utama | Memastikan semua widget utama muncul: gambar welcome, teks, button login, footer. |
+| 2 | `LoginButton` dapat di-tap | Memastikan button utama dapat di-tap, memunculkan `LoginBottomSheet`. |
+| 3 | Login modal dapat di-tap | Memastikan button login di modal bottom sheet dapat di-tap, men-trigger proses login. |
+| 4 | Teks & layout sesuai desain | Memeriksa urutan widget, jumlah `Text`, dan layout sesuai desain (ListView, SizedBox). |
+| 5 | Semua widget menggunakan SafeArea | Memastikan seluruh halaman menggunakan `SafeArea` agar layout aman di berbagai device. |
+
+> **Catatan testing:**  
+> - Semua widget dibungkus dengan `ChangeNotifierProvider` agar `WelcomeViewmodel` tersedia.  
+> - Digunakan `pumpAndSettle()` untuk menunggu animasi dan rendering selesai sebelum assertion.  
+> - `find.byType`, `find.text`, dan `find.widgetWithText` digunakan untuk memastikan keberadaan widget.  
+
+
+
 # HR–Finance Mobile App
 
 Aplikasi Employee Self-Service (ESS) berbasis Flutter untuk mengakses slip gaji, riwayat pinjaman, dan pengajuan pinjaman. Terintegrasi dengan backend Laravel milik PT. Taman Media Indonesia.
