@@ -4,8 +4,6 @@ class WelcomePage extends StatelessWidget {
   const WelcomePage({super.key});
   @override
   Widget build(context) {
-    final controller = context.read<WelcomeViewmodel>();
-
     return Scaffold(
       backgroundColor: const Color(0xFF74EBE0),
       appBar: null,

@@ -11,10 +11,8 @@ class WelcomeViewmodel with ChangeNotifier {
 
   bool isHiddenPassword = true;
   bool isHiddenUsername = false; // keep for parity with existing UI
-
   bool usernameValidate = false;
   bool passwordValidate = false;
-
   bool isLoading = false;
 
   // Simulated login method — replace with real API call
@@ -34,7 +32,6 @@ class WelcomeViewmodel with ChangeNotifier {
 
   // Method untuk validasi input login
   bool validateLogin() {
-    isLoading = true;
     // Mengecek apakah username kosong
     usernameValidate = usernameController.text.isEmpty;
     // Mengecek apakah password kosong
@@ -45,6 +42,7 @@ class WelcomeViewmodel with ChangeNotifier {
     return !usernameValidate && !passwordValidate;
   }
 
+  // Method untuk toggle visibilitas password
   void togglePasswordVisibility() {
     isHiddenPassword = !isHiddenPassword;
     notifyListeners();
@@ -64,6 +62,7 @@ class WelcomeViewmodel with ChangeNotifier {
     );
   }
 
+  // Alternative button style
   ButtonStyle loginButtonStyle2() {
     return TextButton.styleFrom(
       foregroundColor: Colors.white,
@@ -74,6 +73,7 @@ class WelcomeViewmodel with ChangeNotifier {
     );
   }
 
+  // Cleanup controllers when ViewModel is disposed
   @override
   void dispose() {
     usernameController.dispose();

@@ -11,12 +11,11 @@ import 'package:payroll_app/viewmodel/welcome_viewmodel.dart';
 // Act (Aksi): Panggil fungsi atau method yang akan diuji.
 
 // Assert (Verifikasi): Periksa apakah hasilnya sesuai ekspektasi
-// menggunakan expect(). 
+// menggunakan expect().
 
 void main() {
   // Mengelompokkan test agar lebih rapi dan mudah dibaca
   group('WelcomeViewmodel Unit Test', () {
-    
     // Deklarasi variabel ViewModel yang akan dipakai di setiap test
     late WelcomeViewmodel viewModel;
 
@@ -87,10 +86,7 @@ void main() {
 
       // ===== Act & Assert (Aksi + Verifikasi) =====
       // Memastikan bahwa pemanggilan dispose() tidak menghasilkan exception
-      expect(
-        () => viewModel.dispose(),
-        returnsNormally,
-      );
+      expect(() => viewModel.dispose(), returnsNormally);
     });
 
     test('loginButtonStyle mengembalikan ButtonStyle', () {
@@ -123,6 +119,48 @@ void main() {
 
       // Memastikan tipe data yang dikembalikan adalah ButtonStyle
       expect(buttonStyle, isA<ButtonStyle>());
+    });
+
+    test('validateLogin gagal jika username & password kosong', () {
+      // ===== Arrange (Persiapan) =====
+      // Mengosongkan nilai username dan password
+      // untuk mensimulasikan kondisi user belum mengisi form login
+      viewModel.usernameController.text = '';
+      viewModel.passwordController.text = '';
+
+      // ===== Act (Aksi) =====
+      // Memanggil method validateLogin untuk melakukan validasi input
+      final result = viewModel.validateLogin();
+
+      // ===== Assert (Verifikasi) =====
+      // Memastikan hasil validasi bernilai false
+      // karena username dan password tidak diisi
+      expect(result, false);
+
+      // Memastikan flag validasi username bernilai true
+      // yang menandakan terdapat error pada input username
+      expect(viewModel.usernameValidate, true);
+
+      // Memastikan flag validasi password bernilai true
+      // yang menandakan terdapat error pada input password
+      expect(viewModel.passwordValidate, true);
+    });
+
+    test('togglePasswordVisibility membalik isHiddenPassword', () {
+      // ===== Arrange (Persiapan) =====
+      // Menyimpan nilai awal isHiddenPassword
+      // sebagai pembanding setelah method dipanggil
+      final initial = viewModel.isHiddenPassword;
+
+      // ===== Act (Aksi) =====
+      // Memanggil method togglePasswordVisibility
+      // untuk mengubah status visibilitas password
+      viewModel.togglePasswordVisibility();
+
+      // ===== Assert (Verifikasi) =====
+      // Memastikan nilai isHiddenPassword berubah
+      // menjadi kebalikan dari nilai sebelumnya
+      expect(viewModel.isHiddenPassword, !initial);
     });
   });
 }
