@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Payroll App',
         navigatorKey: Get.navigatorKey,
-        home: const WelcomePage(),
+        home: const HomeView(),
       ),
     );
   }
