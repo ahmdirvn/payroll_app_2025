@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:payroll_app/shared/shared.dart';
 import 'package:payroll_app/viewmodel/welcome_viewmodel.dart';
+import 'package:payroll_app/viewmodel/home_viewmodel.dart';
 import 'package:payroll_app/view/pages/pages.dart';
 
 void main() async {
@@ -14,12 +15,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => WelcomeViewmodel(),
+      create: (_) => HomeViewModel(),
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Payroll App',
         navigatorKey: Get.navigatorKey,
-        home: const HomeView(),
+        home: const HomePage(),
       ),
     );
   }
