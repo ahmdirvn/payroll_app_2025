@@ -82,7 +82,12 @@ class ListPinjamanPage extends StatelessWidget {
                           onPressed: () async {
                             final result = await Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (_) => const PengajuanPinjamanPage()),
+                              MaterialPageRoute(
+                                builder: (_) => ChangeNotifierProvider(
+                                  create: (_) => PengajuanPinjamanViewModel()..init(),
+                                  child: const PengajuanPinjamanPage(),
+                                ),
+                              ),
                             );
                             if (result == 'refresh') {
                               vm.fetchPinjaman();

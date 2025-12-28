@@ -21,36 +21,27 @@ class _HomePageState extends State<HomePage> {
     return Consumer<HomeViewModel>(
       builder: (context, vm, _) {
         if (vm.isLoading) {
-          return const Scaffold(
-            body: Center(child: CircularProgressIndicator()),
-          );
+          return const Scaffold(body: Center(child: CircularProgressIndicator()));
         }
 
         return Scaffold(
           backgroundColor: const Color(0xFF74EBE0),
           body: Column(
             children: [
-              HomeHeader(
-                greeting: vm.greeting,
-                name: vm.name,
-              ),
+              HomeHeader(greeting: vm.greeting, name: vm.name),
               const SizedBox(height: 40),
               Expanded(
                 child: Container(
                   decoration: const BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.vertical(
-                      top: Radius.circular(40),
-                    ),
+                    borderRadius: BorderRadius.vertical(top: Radius.circular(40)),
                   ),
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Column(
                     children: [
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 30),
-                        child: Image.asset(
-                          'assets/images/companylogo.png',
-                        ),
+                        child: Image.asset('assets/images/companylogo.png'),
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -59,12 +50,12 @@ class _HomePageState extends State<HomePage> {
                             label: "Cetak Slip",
                             icon: 'assets/images/cetakslip.png',
                             onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (_) => const CetakSlipPage(),
-                                ),
-                              );
+                              Navigator.push(context, MaterialPageRoute(
+                                  builder: (_) => ChangeNotifierProvider(
+                                    create: (_) => CetakSlipViewModel()..init(),
+                                    child: const CetakSlipPage(),
+                                  ),
+                                ));
                             },
                           ),
                           HomeMenu(
@@ -74,7 +65,10 @@ class _HomePageState extends State<HomePage> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (_) => const ListPinjamanPage(),
+                                  builder: (_) => ChangeNotifierProvider(
+                                    create: (_) => ListPinjamanViewModel(),
+                                    child: const ListPinjamanPage(),
+                                  ),
                                 ),
                               );
                             },
@@ -82,20 +76,9 @@ class _HomePageState extends State<HomePage> {
                         ],
                       ),
                       const SizedBox(height: 40),
-                      const Text(
-                        "Informasi",
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      const Text(
-                        "Dapatkan informasi slip gaji anda setiap bulan",
-                        style: TextStyle(fontSize: 11),
-                      ),
-                      Expanded(
-                        child: Image.asset(
-                          "assets/images/banner.png",
-                          fit: BoxFit.contain,
-                        ),
-                      ),
+                      const Text("Informasi", style: TextStyle(fontWeight: FontWeight.bold)),
+                      const Text("Dapatkan informasi slip gaji anda setiap bulan", style: TextStyle(fontSize: 11)),
+                      Expanded(child: Image.asset("assets/images/banner.png", fit: BoxFit.contain)),
                     ],
                   ),
                 ),
