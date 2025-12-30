@@ -17,3 +17,4 @@ part 'custom_text.dart';
 part 'pinjaman_card.dart';
 part 'profile_form.dart';
 part 'custom_text_field_2.dart';
+part 'bottom_nav_bar.dart';

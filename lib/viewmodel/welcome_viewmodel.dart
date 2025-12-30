@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
+
 // import 'package:payroll_app/model/model.dart';
 // import 'package:payroll_app/repository/home_repository.dart';
 
@@ -38,16 +39,21 @@ class WelcomeViewmodel with ChangeNotifier {
   // Method untuk validasi input login
   bool validateLogin() {
     String username = usernameController.text.trim();
+
     // Mengecek apakah username kosong
     usernameValidate = usernameController.text.isEmpty;
+
     // Mengecek apakah password kosong
     passwordValidate = passwordController.text.isEmpty;
+
     // cek format email jika tidak kosong
     if (!usernameValidate && !_isValidEmail(username)) {
       usernameValidate = true; // anggap invalid format = error
     }
+
     // Memberi tahu UI bahwa state berubah
     notifyListeners();
+
     // Return true jika valid
     return !usernameValidate && !passwordValidate;
   }
@@ -90,7 +96,4 @@ class WelcomeViewmodel with ChangeNotifier {
     passwordController.dispose();
     super.dispose();
   }
-
-
-  
 }
