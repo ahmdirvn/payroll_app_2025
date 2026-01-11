@@ -1,1 +1,1 @@
-enum LoginResult { success, invalidCredential, error }
+enum LoginResult { success, invalidCredential, error, failedFormat }

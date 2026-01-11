@@ -35,16 +35,25 @@ class WelcomeViewmodel with ChangeNotifier {
       print("Invalid credentials format");
       isLoading = false;
       notifyListeners();
-      return LoginResult.invalidCredential;
+      return LoginResult.failedFormat;
     }
-    print("Attempting login for $username");
+
     try {
       final response = await _authRepository.login(username: username, password: password);
-      print(response);
-      // sukses → simpan user
-      await _saveUser(response);
-      return LoginResult.success;
+      if (response.success != true) {
+        isLoading = false;
+        notifyListeners();
+        return LoginResult.failedFormat;
+      } else {
+        isLoading = false;
+        notifyListeners();
+        // sukses → simpan user
+        await _saveUser(response);
+        print("Login successful for user: ${response.data.user.nama}");
+        return LoginResult.success;
+      }
     } catch (e) {
+      print("Login error: $e");
       isLoading = false;
       notifyListeners();
       return LoginResult.error;
@@ -80,6 +89,8 @@ class WelcomeViewmodel with ChangeNotifier {
   // ==========================
   Future<void> _saveUser(LoginResponseModel data) async {
     final prefs = await SharedPreferences.getInstance();
+    print(data.data);
+    print(prefs);
     prefs.setString("token", data.data.token);
     prefs.setString("name", data.data.user.nama);
   }

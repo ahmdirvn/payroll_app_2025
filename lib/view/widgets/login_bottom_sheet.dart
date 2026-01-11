@@ -91,14 +91,15 @@ class LoginBottomSheet extends StatelessWidget {
                       Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const NavigatorPage()));
                     }
 
+                    print(result);
+
                     if (result == LoginResult.invalidCredential) {
-                      ScaffoldMessenger.of(
-                        context,
-                      ).showSnackBar(const SnackBar(content: Text("Email / Password salah")));
+                      UiHelper.showErrorDialog(context, "Email atau password yang kamu masukkan salah.");
                     }
 
                     if (result == LoginResult.error) {
-                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Terjadi kesalahan")));
+                      // Navigator.pop(context); // tutup bottom sheet
+                      UiHelper.showErrorDialog(context, "Terjadi kesalahan. Silakan coba lagi.");
                     }
                   },
                   child: Consumer<WelcomeViewmodel>(

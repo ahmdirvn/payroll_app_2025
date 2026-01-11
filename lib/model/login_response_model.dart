@@ -1,224 +1,205 @@
-// To parse this JSON data, do
-//
-//     final loginResponseModel = loginResponseModelFromJson(jsonString);
-
 import 'dart:convert';
 
-LoginResponseModel loginResponseModelFromJson(String str) =>
-    LoginResponseModel.fromJson(json.decode(str));
+LoginResponseModel loginResponseModelFromJson(String str) => LoginResponseModel.fromJson(json.decode(str));
 
-String loginResponseModelToJson(LoginResponseModel data) =>
-    json.encode(data.toJson());
+String loginResponseModelToJson(LoginResponseModel data) => json.encode(data.toJson());
 
 class LoginResponseModel {
-  bool success;
-  String message;
-  Data data;
+  final bool success;
+  final String message;
+  final Data data;
 
-  LoginResponseModel({
-    required this.success,
-    required this.message,
-    required this.data,
-  });
+  LoginResponseModel({required this.success, required this.message, required this.data});
 
-  factory LoginResponseModel.fromJson(Map<String, dynamic> json) =>
-      LoginResponseModel(
-        success: json["success"],
-        message: json["message"],
-        data: Data.fromJson(json["data"]),
-      );
+  factory LoginResponseModel.fromJson(Map<String, dynamic> json) {
+    return LoginResponseModel(
+      success: json['success'] ?? false,
+      message: json['message'] ?? '',
+      data: Data.fromJson(json['data'] ?? {}),
+    );
+  }
 
-  Map<String, dynamic> toJson() => {
-        "success": success,
-        "message": message,
-        "data": data.toJson(),
-      };
+  Map<String, dynamic> toJson() => {'success': success, 'message': message, 'data': data.toJson()};
 }
 
 class Data {
-  User user;
-  Divisi entitas;
-  Divisi divisi;
-  Jabatan jabatan;
-  String token;
-  String tokenType;
+  final User user;
+  final Divisi? entitas;
+  final Divisi? divisi;
+  final Jabatan? jabatan;
+  final String token;
+  final String tokenType;
 
-  Data({
-    required this.user,
-    required this.entitas,
-    required this.divisi,
-    required this.jabatan,
-    required this.token,
-    required this.tokenType,
-  });
+  Data({required this.user, this.entitas, this.divisi, this.jabatan, required this.token, required this.tokenType});
 
-  factory Data.fromJson(Map<String, dynamic> json) => Data(
-        user: User.fromJson(json["user"]),
-        entitas: Divisi.fromJson(json["entitas"]),
-        divisi: Divisi.fromJson(json["divisi"]),
-        jabatan: Jabatan.fromJson(json["jabatan"]),
-        token: json["token"],
-        tokenType: json["token_type"],
-      );
+  factory Data.fromJson(Map<String, dynamic> json) {
+    return Data(
+      user: User.fromJson(json['user'] ?? {}),
+      entitas: json['entitas'] != null ? Divisi.fromJson(json['entitas']) : null,
+      divisi: json['divisi'] != null ? Divisi.fromJson(json['divisi']) : null,
+      jabatan: json['jabatan'] != null ? Jabatan.fromJson(json['jabatan']) : null,
+      token: json['token'] ?? '',
+      tokenType: json['token_type'] ?? '',
+    );
+  }
 
   Map<String, dynamic> toJson() => {
-        "user": user.toJson(),
-        "entitas": entitas.toJson(),
-        "divisi": divisi.toJson(),
-        "jabatan": jabatan.toJson(),
-        "token": token,
-        "token_type": tokenType,
-      };
+    'user': user.toJson(),
+    'entitas': entitas?.toJson(),
+    'divisi': divisi?.toJson(),
+    'jabatan': jabatan?.toJson(),
+    'token': token,
+    'token_type': tokenType,
+  };
 }
 
 class Divisi {
-  int id;
-  String nama;
-  int? entitasId;
-  DateTime createdAt;
-  DateTime updatedAt;
-  String? image;
+  final int id;
+  final String nama;
+  final int? entitasId;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
+  final String? image;
 
-  Divisi({
-    required this.id,
-    required this.nama,
-    this.entitasId,
-    required this.createdAt,
-    required this.updatedAt,
-    this.image,
-  });
+  Divisi({required this.id, required this.nama, this.entitasId, this.createdAt, this.updatedAt, this.image});
 
-  factory Divisi.fromJson(Map<String, dynamic> json) => Divisi(
-        id: json["id"],
-        nama: json["nama"],
-        entitasId: json["entitas_id"] ?? 0,
-        createdAt: DateTime.parse(json["created_at"]),
-        updatedAt: DateTime.parse(json["updated_at"]),
-        image: json["image"],
-      );
+  factory Divisi.fromJson(Map<String, dynamic> json) {
+    return Divisi(
+      id: json['id'] ?? 0,
+      nama: json['nama'] ?? '',
+      entitasId: json['entitas_id'],
+      createdAt: json['created_at'] != null ? DateTime.tryParse(json['created_at']) : null,
+      updatedAt: json['updated_at'] != null ? DateTime.tryParse(json['updated_at']) : null,
+      image: json['image'],
+    );
+  }
 
   Map<String, dynamic> toJson() => {
-        "id": id,
-        "nama": nama,
-        "entitas_id": entitasId,
-        "created_at": createdAt.toIso8601String(),
-        "updated_at": updatedAt.toIso8601String(),
-        "image": image,
-      };
+    'id': id,
+    'nama': nama,
+    'entitas_id': entitasId,
+    'created_at': createdAt?.toIso8601String(),
+    'updated_at': updatedAt?.toIso8601String(),
+    'image': image,
+  };
 }
 
 class Jabatan {
-  int id;
-  String nama;
-  int? tunjanganJabatan;
-  int entitasId;
-  DateTime createdAt;
-  DateTime updatedAt;
-  int deleted;
+  final int id;
+  final String nama;
+  final int? tunjanganJabatan;
+  final int? entitasId;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
+  final int? deleted;
 
   Jabatan({
     required this.id,
     required this.nama,
     this.tunjanganJabatan,
-    required this.entitasId,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.deleted,
+    this.entitasId,
+    this.createdAt,
+    this.updatedAt,
+    this.deleted,
   });
 
-  factory Jabatan.fromJson(Map<String, dynamic> json) => Jabatan(
-        id: json["id"],
-        nama: json["nama"],
-        tunjanganJabatan: json["tunjangan_jabatan"],
-        entitasId: json["entitas_id"] ?? 0,
-        createdAt: DateTime.parse(json["created_at"]),
-        updatedAt: DateTime.parse(json["updated_at"]),
-        deleted: json["deleted"],
-      );
+  factory Jabatan.fromJson(Map<String, dynamic> json) {
+    return Jabatan(
+      id: json['id'] ?? 0,
+      nama: json['nama'] ?? '',
+      tunjanganJabatan: json['tunjangan_jabatan'],
+      entitasId: json['entitas_id'],
+      createdAt: json['created_at'] != null ? DateTime.tryParse(json['created_at']) : null,
+      updatedAt: json['updated_at'] != null ? DateTime.tryParse(json['updated_at']) : null,
+      deleted: json['deleted'],
+    );
+  }
 
   Map<String, dynamic> toJson() => {
-        "id": id,
-        "nama": nama,
-        "tunjangan_jabatan": tunjanganJabatan,
-        "entitas_id": entitasId,
-        "created_at": createdAt.toIso8601String(),
-        "updated_at": updatedAt.toIso8601String(),
-        "deleted": deleted,
-      };
+    'id': id,
+    'nama': nama,
+    'tunjangan_jabatan': tunjanganJabatan,
+    'entitas_id': entitasId,
+    'created_at': createdAt?.toIso8601String(),
+    'updated_at': updatedAt?.toIso8601String(),
+    'deleted': deleted,
+  };
 }
 
 class User {
-  int id;
-  String nama;
-  int entitasId;
-  int jabatanId;
-  int divisiId;
-  String email;
-  String nik;
-  String jenisKelamin;
-  int status;
-  int deleted;
-  int? chatId;
-  DateTime createdAt;
-  DateTime updatedAt;
-  Divisi entitas;
-  Divisi divisi;
-  Jabatan jabatan;
+  final int id;
+  final String nama;
+  final int? entitasId;
+  final int? jabatanId;
+  final int? divisiId;
+  final String email;
+  final String? nik;
+  final String jenisKelamin;
+  final int status;
+  final int deleted;
+  final int? chatId;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
+  final Divisi? entitas;
+  final Divisi? divisi;
+  final Jabatan? jabatan;
 
   User({
     required this.id,
     required this.nama,
-    required this.entitasId,
-    required this.jabatanId,
-    required this.divisiId,
+    this.entitasId,
+    this.jabatanId,
+    this.divisiId,
     required this.email,
-    required this.nik,
+    this.nik,
     required this.jenisKelamin,
     required this.status,
     required this.deleted,
     this.chatId,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.entitas,
-    required this.divisi,
-    required this.jabatan,
+    this.createdAt,
+    this.updatedAt,
+    this.entitas,
+    this.divisi,
+    this.jabatan,
   });
 
-  factory User.fromJson(Map<String, dynamic> json) => User(
-        id: json["id"],
-        nama: json["nama"],
-        entitasId: json["entitas_id"] ?? 0,
-        jabatanId: json["jabatan_id"] ?? 0,
-        divisiId: json["divisi_id"] ?? 0,
-        email: json["email"],
-        nik: json["nik"],
-        jenisKelamin: json["jenis_kelamin"],
-        status: json["status"],
-        deleted: json["deleted"],
-        chatId: json["chat_id"],
-        createdAt: DateTime.parse(json["created_at"]),
-        updatedAt: DateTime.parse(json["updated_at"]),
-        entitas: Divisi.fromJson(json["entitas"]),
-        divisi: Divisi.fromJson(json["divisi"]),
-        jabatan: Jabatan.fromJson(json["jabatan"]),
-      );
+  factory User.fromJson(Map<String, dynamic> json) {
+    return User(
+      id: json['id'] ?? 0,
+      nama: json['nama'] ?? '',
+      entitasId: json['entitas_id'],
+      jabatanId: json['jabatan_id'],
+      divisiId: json['divisi_id'],
+      email: json['email'] ?? '',
+      nik: json['nik'],
+      jenisKelamin: json['jenis_kelamin'] ?? '',
+      status: json['status'] ?? 0,
+      deleted: json['deleted'] ?? 0,
+      chatId: json['chat_id'],
+      createdAt: json['created_at'] != null ? DateTime.tryParse(json['created_at']) : null,
+      updatedAt: json['updated_at'] != null ? DateTime.tryParse(json['updated_at']) : null,
+      entitas: json['entitas'] != null ? Divisi.fromJson(json['entitas']) : null,
+      divisi: json['divisi'] != null ? Divisi.fromJson(json['divisi']) : null,
+      jabatan: json['jabatan'] != null ? Jabatan.fromJson(json['jabatan']) : null,
+    );
+  }
 
   Map<String, dynamic> toJson() => {
-        "id": id,
-        "nama": nama,
-        "entitas_id": entitasId,
-        "jabatan_id": jabatanId,
-        "divisi_id": divisiId,
-        "email": email,
-        "nik": nik,
-        "jenis_kelamin": jenisKelamin,
-        "status": status,
-        "deleted": deleted,
-        "chat_id": chatId,
-        "created_at": createdAt.toIso8601String(),
-        "updated_at": updatedAt.toIso8601String(),
-        "entitas": entitas.toJson(),
-        "divisi": divisi.toJson(),
-        "jabatan": jabatan.toJson(),
-      };
+    'id': id,
+    'nama': nama,
+    'entitas_id': entitasId,
+    'jabatan_id': jabatanId,
+    'divisi_id': divisiId,
+    'email': email,
+    'nik': nik,
+    'jenis_kelamin': jenisKelamin,
+    'status': status,
+    'deleted': deleted,
+    'chat_id': chatId,
+    'created_at': createdAt?.toIso8601String(),
+    'updated_at': updatedAt?.toIso8601String(),
+    'entitas': entitas?.toJson(),
+    'divisi': divisi?.toJson(),
+    'jabatan': jabatan?.toJson(),
+  };
 }
