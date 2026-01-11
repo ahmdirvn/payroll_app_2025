@@ -84,11 +84,19 @@ class LoginBottomSheet extends StatelessWidget {
                     );
 
                     if (result == LoginResult.success) {
-                      // tutup bottom sheet
+                      final rootContext = Navigator.of(context, rootNavigator: true).context;
+
+                      // tutup bottom sheet dulu
                       Navigator.pop(context);
 
-                      // pindah ke halaman yang ada bottom nav
-                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const NavigatorPage()));
+                      // kasih delay dikit
+                      await Future.delayed(const Duration(milliseconds: 200));
+
+                      // tampilkan feedback
+                      UiHelper.showSuccess("Login berhasil ");
+
+                      // pindah halaman
+                      Navigator.pushReplacement(rootContext, MaterialPageRoute(builder: (_) => const NavigatorPage()));
                     }
 
                     print(result);

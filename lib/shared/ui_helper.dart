@@ -16,7 +16,9 @@ class UiHelper {
     );
   }
 
-  static void showSuccess(BuildContext context, String message) {
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message), backgroundColor: Colors.green));
+  static void showSuccess(String message) {
+    rootMessengerKey.currentState?.showSnackBar(
+      SnackBar(content: Text(message), backgroundColor: Colors.green, duration: const Duration(seconds: 2)),
+    );
   }
 }

@@ -40,26 +40,24 @@ class WelcomeViewmodel with ChangeNotifier {
 
     try {
       final response = await _authRepository.login(username: username, password: password);
-      if (response.success != true) {
-        isLoading = false;
-        notifyListeners();
-        return LoginResult.failedFormat;
-      } else {
-        isLoading = false;
-        notifyListeners();
-        // sukses → simpan user
-        await _saveUser(response);
-        print("Login successful for user: ${response.data.user.nama}");
-        return LoginResult.success;
-      }
+      print(response);
+      isLoading = false;
+      notifyListeners();
+
+      await _saveUser(response);
+      return LoginResult.success;
     } catch (e) {
-      print("Login error: $e");
+      print('Login error: $e');
       isLoading = false;
       notifyListeners();
+
+      final error = e.toString().toLowerCase();
+
+      if (error.contains("unauthorized") || error.contains("401")) {
+        return LoginResult.invalidCredential;
+      }
+
       return LoginResult.error;
-    } finally {
-      isLoading = false;
-      notifyListeners();
     }
   }
 

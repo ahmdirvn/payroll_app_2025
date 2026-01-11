@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:payroll_app/shared/ui_helper.dart';
 import 'package:provider/provider.dart';
 import 'package:payroll_app/shared/shared.dart';
 import 'package:payroll_app/viewmodel/welcome_viewmodel.dart';
@@ -16,6 +17,7 @@ class MyApp extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (_) => WelcomeViewmodel(),
       child: MaterialApp(
+        scaffoldMessengerKey: rootMessengerKey,
         debugShowCheckedModeBanner: false,
         title: 'Payroll App',
         navigatorKey: Get.navigatorKey,
