@@ -38,17 +38,19 @@ class NetworkApiService implements BaseApiService {
   Future<dynamic> postApiResponse(String endpoint, dynamic data) async {
     // Implement your POST request logic here
     dynamic responseJson;
+    print('NetworkApiService: postApiResponse called with endpoint=$endpoint, data=$data');
 
     try {
       final response = await http
           .post(
-            Uri.http(Const.baseUrl, Const.subUrl + endpoint),
+            Uri.parse('${Const.baseUrl}${Const.subUrl}$endpoint'),
             headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
             body: jsonEncode(data),
           )
           .timeout(const Duration(seconds: 10));
 
       responseJson = _returnResponse(response);
+      print('Response JSON: $responseJson');
     } on SocketException {
       throw NoInternetException();
     } on TimeoutException {

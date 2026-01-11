@@ -28,19 +28,19 @@ class WelcomeViewmodel with ChangeNotifier {
   // LOGIN
   // ==========================
   Future<LoginResult> loginUser(String username, String password) async {
-    print(isLoading);
     isLoading = true;
     notifyListeners();
 
     if (!validateLogin(username, password)) {
+      print("Invalid credentials format");
       isLoading = false;
       notifyListeners();
       return LoginResult.invalidCredential;
     }
-
+    print("Attempting login for $username");
     try {
       final response = await _authRepository.login(username: username, password: password);
-
+      print(response);
       // sukses → simpan user
       await _saveUser(response);
       return LoginResult.success;

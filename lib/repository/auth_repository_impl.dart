@@ -8,6 +8,7 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<LoginResponseModel> login({required String username, required String password}) async {
+    print('AuthRepositoryImpl: login called with username=$username');
     final response = await _apiService.postApiResponse("/login", {"email": username, "password": password});
 
     return LoginResponseModel.fromJson(response);
