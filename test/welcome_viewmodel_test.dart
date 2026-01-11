@@ -33,20 +33,15 @@ void main() {
       const String username = 'admin';
       const String password = '123456';
 
+      final states = <bool>[];
+
+      viewModel.addListener(() {
+        states.add(viewModel.isLoading);
+      });
       // ===== Act =====
       // Memanggil method loginUser
-      final Future<void> future = viewModel.loginUser(username, password);
-
-      // ===== Assert (kondisi awal setelah dipanggil) =====
-      // Memastikan isLoading langsung bernilai true saat proses login dimulai
-      expect(viewModel.isLoading, true);
-
-      // Menunggu proses async (Future.delayed) selesai
-      await future;
-
-      // ===== Assert (kondisi akhir) =====
-      // Memastikan isLoading kembali menjadi false setelah proses selesai
-      expect(viewModel.isLoading, false);
+      await viewModel.loginUser(username, password);
+      expect(states, [true, false]);
     });
 
     test('Default state WelcomeViewmodel sesuai nilai awal', () {

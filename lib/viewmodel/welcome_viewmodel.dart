@@ -28,13 +28,15 @@ class WelcomeViewmodel with ChangeNotifier {
   // LOGIN
   // ==========================
   Future<LoginResult> loginUser(String username, String password) async {
+    print(isLoading);
+    isLoading = true;
+    notifyListeners();
+
     if (!validateLogin(username, password)) {
+      isLoading = false;
       notifyListeners();
       return LoginResult.invalidCredential;
     }
-
-    isLoading = true;
-    notifyListeners();
 
     try {
       final response = await _authRepository.login(username: username, password: password);
@@ -43,6 +45,8 @@ class WelcomeViewmodel with ChangeNotifier {
       await _saveUser(response);
       return LoginResult.success;
     } catch (e) {
+      isLoading = false;
+      notifyListeners();
       return LoginResult.error;
     } finally {
       isLoading = false;
