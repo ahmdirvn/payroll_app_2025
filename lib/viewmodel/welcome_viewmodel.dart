@@ -1,10 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:payroll_app/data/response/login_result.dart';
+import 'package:payroll_app/model/login_response_model.dart';
 import 'dart:async';
+
+import 'package:payroll_app/repository/auth_repository.dart';
+import 'package:payroll_app/repository/auth_repository_impl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 // import 'package:payroll_app/model/model.dart';
 // import 'package:payroll_app/repository/home_repository.dart';
 
 class WelcomeViewmodel with ChangeNotifier {
+  // Using repository pattern for data operations
+  final AuthRepository _authRepository = AuthRepositoryImpl();
   // Basic UI state used by the welcome/login page
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
@@ -16,14 +24,26 @@ class WelcomeViewmodel with ChangeNotifier {
   bool isLoading = false;
 
   // Simulated login method — will use with real API later
-  Future<void> loginUser(String username, String password) async {
+  // ==========================
+  // LOGIN
+  // ==========================
+  Future<LoginResult> loginUser(String username, String password) async {
+    if (!validateLogin(username, password)) {
+      notifyListeners();
+      return LoginResult.invalidCredential;
+    }
+
     isLoading = true;
     notifyListeners();
 
     try {
-      // Simulate network delay
-      await Future.delayed(const Duration(seconds: 1));
-      // TODO: call repository/api and handle result
+      final response = await _authRepository.login(username: username, password: password);
+
+      // sukses → simpan user
+      await _saveUser(response);
+      return LoginResult.success;
+    } catch (e) {
+      return LoginResult.error;
     } finally {
       isLoading = false;
       notifyListeners();
@@ -37,25 +57,27 @@ class WelcomeViewmodel with ChangeNotifier {
   }
 
   // Method untuk validasi input login
-  bool validateLogin() {
-    String username = usernameController.text.trim();
+  // ==========================
+  // VALIDATION
+  // ==========================
+  bool validateLogin(String username, String password) {
+    usernameValidate = username.trim().isEmpty;
+    passwordValidate = password.trim().isEmpty;
 
-    // Mengecek apakah username kosong
-    usernameValidate = usernameController.text.isEmpty;
-
-    // Mengecek apakah password kosong
-    passwordValidate = passwordController.text.isEmpty;
-
-    // cek format email jika tidak kosong
     if (!usernameValidate && !_isValidEmail(username)) {
-      usernameValidate = true; // anggap invalid format = error
+      usernameValidate = true;
     }
 
-    // Memberi tahu UI bahwa state berubah
-    notifyListeners();
-
-    // Return true jika valid
     return !usernameValidate && !passwordValidate;
+  }
+
+  // ==========================
+  // SAVE USER
+  // ==========================
+  Future<void> _saveUser(LoginResponseModel data) async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setString("token", data.data.token);
+    prefs.setString("name", data.data.user.nama);
   }
 
   // Method untuk toggle visibilitas password

@@ -131,7 +131,7 @@ void main() {
 
       // ===== Act (Aksi) =====
       // Memanggil method validateLogin untuk melakukan validasi input
-      final result = viewModel.validateLogin();
+      final result = viewModel.validateLogin('', '');
 
       // ===== Assert (Verifikasi) =====
       // Memastikan hasil validasi bernilai false
@@ -170,7 +170,7 @@ void main() {
       viewModel.passwordController.text = '123456';
 
       // ===== Act =====
-      final result = viewModel.validateLogin();
+      final result = viewModel.validateLogin('invalidemail.com', '123456');
 
       // ===== Assert =====
       expect(result, false);
@@ -184,7 +184,7 @@ void main() {
       viewModel.passwordController.text = '123456';
 
       // ===== Act =====
-      final result = viewModel.validateLogin();
+      final result = viewModel.validateLogin('test@email.com', '123456');
 
       // ===== Assert =====
       expect(result, true);

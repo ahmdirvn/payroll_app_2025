@@ -77,11 +77,28 @@ class LoginBottomSheet extends StatelessWidget {
                 child: TextButton(
                   style: controller.loginButtonStyle2(),
                   onPressed: () async {
-                    if (controller.validateLogin()) {
-                      await controller.loginUser(
-                        controller.usernameController.text,
-                        controller.passwordController.text,
-                      );
+                    //login process
+                    final result = await controller.loginUser(
+                      controller.usernameController.text,
+                      controller.passwordController.text,
+                    );
+
+                    if (result == LoginResult.success) {
+                      // tutup bottom sheet
+                      Navigator.pop(context);
+
+                      // pindah ke halaman yang ada bottom nav
+                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const NavigatorPage()));
+                    }
+
+                    if (result == LoginResult.invalidCredential) {
+                      ScaffoldMessenger.of(
+                        context,
+                      ).showSnackBar(const SnackBar(content: Text("Email / Password salah")));
+                    }
+
+                    if (result == LoginResult.error) {
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Terjadi kesalahan")));
                     }
                   },
                   child: Consumer<WelcomeViewmodel>(

@@ -1,7 +1,7 @@
 part of 'shared.dart';
 
-class Const{
-  static String baseUrl = "rajaonkir.komerce.id";
-  static String subUrl = "/api/v1";
-  static String apiKey = "RAJAONKIR-API-KEY";
+class Const {
+  // for api managing
+  static String baseUrl = "https://forestgreen-crane-349625.hostingersite.com";
+  static String subUrl = "/api";
 }

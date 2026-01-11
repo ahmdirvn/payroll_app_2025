@@ -6,13 +6,13 @@ class LoginButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = context.read<WelcomeViewmodel>();
-
     return SizedBox(
       height: 60,
       width: MediaQuery.of(context).size.width * 0.8,
       child: TextButton(
         style: controller.loginButtonStyle(),
         onPressed: () {
+          // print('Building LoginButton');
           showModalBottomSheet(isScrollControlled: true, context: context, builder: (_) => const LoginBottomSheet());
         },
         child: const Text('Login'),
