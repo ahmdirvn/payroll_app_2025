@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:payroll_app/data/app_exception.dart';
 import 'package:payroll_app/data/network/base_api_service.dart';
 import 'package:payroll_app/shared/shared.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class NetworkApiService implements BaseApiService {
   @override
@@ -14,13 +15,18 @@ class NetworkApiService implements BaseApiService {
     dynamic responseJson;
 
     try {
+      //
+      final prefs = await SharedPreferences.getInstance();
+      final token = prefs.getString('token');
       // Simulate network call
       final response = await http
           .get(
-            Uri.https(Const.baseUrl, Const.subUrl + endpoint),
-            // headers: {'Content-Type': 'application/json', 'key': Const.apiKey},
+            Uri.parse('${Const.baseUrl}${Const.subUrl}$endpoint'),
+            headers: {'Accept': 'application/json', if (token != null) 'Authorization': 'Bearer $token'},
           )
           .timeout(const Duration(seconds: 10));
+      print('NetworkApiService: getApiResponse called with endpoint=$endpoint');
+      print('Response status: $response');
       if (response.statusCode == 200) {
         responseJson = jsonDecode(response.body);
       } else {

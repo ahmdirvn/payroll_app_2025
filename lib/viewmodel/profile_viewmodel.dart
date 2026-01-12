@@ -1,10 +1,13 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:payroll_app/repository/profile_repository.dart';
+import 'package:payroll_app/repository/profile_repository_impl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../model/get_profile_reponse_model.dart';
 
 class ProfileViewModel extends ChangeNotifier {
+  final ProfileRepository _repo = ProfileRepositoryImpl();
   // controller form
   final nameController = TextEditingController();
   final emailController = TextEditingController();
@@ -20,53 +23,52 @@ class ProfileViewModel extends ChangeNotifier {
   }
 
   Future<void> loadProfile() async {
-    isLoading = true;
-    notifyListeners();
+    try {
+      isLoading = true;
+      notifyListeners();
 
-    final token = await _getToken();
-    final response = await http.get(
-      Uri.parse('https://payroll-web-xmvbzkqsaq-et.a.run.app/api/profile'),
-      headers: {'Authorization': 'Bearer $token'},
-    );
-
-    profile = getProfileResponModelFromJson(response.body);
-    nameController.text = profile!.data.nama;
-    emailController.text = profile!.data.email;
-
-    isLoading = false;
-    notifyListeners();
+      profile = await _repo.getProfile();
+      print(profile);
+      nameController.text = profile!.data.nama;
+      emailController.text = profile!.data.email;
+    } catch (e) {
+      debugPrint('Load profile error: $e');
+    } finally {
+      isLoading = false;
+      notifyListeners();
+    }
   }
 
   Future<void> updateProfile(BuildContext context) async {
-    if (passwordController.text.isEmpty || confirmPasswordController.text.isEmpty) {
-      _showSnack(context, 'Password tidak boleh kosong');
-      return;
-    }
-
-    if (passwordController.text != confirmPasswordController.text) {
+    if (passwordController.text.isNotEmpty && passwordController.text != confirmPasswordController.text) {
       _showSnack(context, 'Password tidak sama');
       return;
     }
 
-    final token = await _getToken();
+    try {
+      isLoading = true;
+      notifyListeners();
 
-    final response = await http.put(
-      Uri.parse('https://payroll-web-xmvbzkqsaq-et.a.run.app/api/profile/update'),
-      headers: {'Authorization': 'Bearer $token'},
-      body: {'nama': nameController.text, 'email': emailController.text, 'password': passwordController.text},
-    );
+      final message = await _repo.updateProfile(
+        nama: nameController.text,
+        email: emailController.text,
+        password: passwordController.text.isEmpty ? null : passwordController.text,
+      );
 
-    if (response.statusCode == 200) {
-      final message = jsonDecode(response.body)['message'];
       _showDialog(context, message);
+      passwordController.clear();
+      confirmPasswordController.clear();
+    } catch (e) {
+      _showSnack(context, e.toString());
+    } finally {
+      isLoading = false;
+      notifyListeners();
     }
   }
 
-  Future<void> logout(BuildContext context) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.remove('token');
-
-    Navigator.of(context).pushNamedAndRemoveUntil('/welcome', (route) => false);
+  void logout(BuildContext context) async {
+    // backend logout optional → local clear cukup
+    Navigator.of(context).pushNamedAndRemoveUntil('/welcome', (_) => false);
   }
 
   void _showSnack(BuildContext context, String msg) {
@@ -77,9 +79,10 @@ class ProfileViewModel extends ChangeNotifier {
     showDialog(
       context: context,
       builder: (_) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         title: const Text('Success', textAlign: TextAlign.center),
         content: Text(msg, textAlign: TextAlign.center),
-        actions: [TextButton(onPressed: () => Navigator.pop(context), child: const Text('Close'))],
+        actions: [TextButton(onPressed: () => Navigator.pop(context), child: const Text('OK'))],
       ),
     );
   }
